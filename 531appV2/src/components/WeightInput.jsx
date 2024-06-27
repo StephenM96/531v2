@@ -9,6 +9,7 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import OneRepMaxCalculator from "./OneRepMaxCalculator";
 
 export default function WeightInput() {
   return (
@@ -25,11 +26,19 @@ export default function WeightInput() {
       </LocalizationProvider>
 
       <TextField
-        id="back-squat-input"
+        id="back-squat-weight-input"
         label="Back Squat"
         variant="standard"
         InputProps={{
-          startAdornment: <InputAdornment position="start">lb</InputAdornment>,
+          startAdornment: <InputAdornment position="start">Weight (lb)</InputAdornment>,
+        }}
+      />
+            <TextField
+        id="back-squat-reps-input"
+        label="Back Squat"
+        variant="standard"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">Reps</InputAdornment>,
         }}
       />
       <TextField

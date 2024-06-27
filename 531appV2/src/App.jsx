@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import WeightInput from './components/WeightInput'
+import OneRepMaxCalculator from './components/OneRepMaxCalculator'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,7 +24,8 @@ function App() {
           count is {count}
         </button>
 
-        <WeightInput />
+        <OneRepMaxCalculator />
+        {/* <WeightInput /> */}
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
