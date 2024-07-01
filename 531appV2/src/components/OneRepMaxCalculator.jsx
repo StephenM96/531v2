@@ -29,10 +29,10 @@ const ExerciseInput = ({ id, label, value, onChange, adornment }) => {
 
 const OneRepMaxCalculator = () => {
   const [inputs, setInputs] = useState({
-    backSquat: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: "", trainingMax: null },
-    benchPress: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: "", trainingMax: null },
-    deadlift: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: "", trainingMax: null },
-    overheadPress: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: "", trainingMax: null },
+    backSquat: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: 85, trainingMax: null },
+    benchPress: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: 85, trainingMax: null },
+    deadlift: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: 85, trainingMax: null },
+    overheadPress: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: 85, trainingMax: null },
   });
 
   const calculateOneRepMax = (weight, reps) => {
