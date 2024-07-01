@@ -29,15 +29,23 @@ const ExerciseInput = ({ id, label, value, onChange, adornment }) => {
 
 const OneRepMaxCalculator = () => {
   const [inputs, setInputs] = useState({
-    backSquat: { weight: "", reps: "", oneRepMax: null },
-    benchPress: { weight: "", reps: "", oneRepMax: null },
-    deadlift: { weight: "", reps: "", oneRepMax: null },
-    overheadPress: { weight: "", reps: "", oneRepMax: null },
+    backSquat: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: "", trainingMax: null },
+    benchPress: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: "", trainingMax: null },
+    deadlift: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: "", trainingMax: null },
+    overheadPress: { weight: "", reps: "", oneRepMax: null, trainingMaxPercentage: "", trainingMax: null },
   });
 
   const calculateOneRepMax = (weight, reps) => {
     const estimatedMax = weight * reps * (1 / 30) + weight;
     return Math.floor(estimatedMax / 5) * 5;
+  };
+
+  const calculateTrainingMax = (oneRepMax, percentage) => {
+    if (oneRepMax === null || isNaN(percentage) || percentage <= 0) {
+      return null;
+    }
+    const trainingMax = oneRepMax * (percentage / 100);
+    return Math.floor(trainingMax / 5) * 5;
   };
 
   const handleInputChange = (exercise, field, value) => {
@@ -52,12 +60,15 @@ const OneRepMaxCalculator = () => {
     for (let exercise in newInputs) {
       const weightNum = parseFloat(newInputs[exercise].weight);
       const repsNum = parseInt(newInputs[exercise].reps, 10);
+      const percentage = parseFloat(newInputs[exercise].trainingMaxPercentage);
 
       if (!isNaN(weightNum) && !isNaN(repsNum)) {
         newInputs[exercise].oneRepMax = calculateOneRepMax(weightNum, repsNum);
       } else {
         newInputs[exercise].oneRepMax = null;
       }
+
+      newInputs[exercise].trainingMax = calculateTrainingMax(newInputs[exercise].oneRepMax, percentage);
     }
     setInputs(newInputs);
   };
@@ -78,24 +89,35 @@ const OneRepMaxCalculator = () => {
                 .replace(/([A-Z])/g, " $1")
                 .replace(/^./, (str) => str.toUpperCase())}
             </Typography>
-            <Box sx={{ display: "flex", gap: 2, flexDirection: "row" }}>
+            <Box sx={{ display: "flex", gap: 2, flexDirection: "column" }}>
+              <Box sx={{ display: "flex", gap: 2 }}>
+                <ExerciseInput
+                  id={`${exercise}-weight-input`}
+                  label="Weight"
+                  value={inputs[exercise].weight}
+                  onChange={(e) =>
+                    handleInputChange(exercise, "weight", e.target.value)
+                  }
+                  adornment="lb"
+                />
+                <ExerciseInput
+                  id={`${exercise}-reps-input`}
+                  label="Reps"
+                  value={inputs[exercise].reps}
+                  onChange={(e) =>
+                    handleInputChange(exercise, "reps", e.target.value)
+                  }
+                  adornment="Reps"
+                />
+              </Box>
               <ExerciseInput
-                id={`${exercise}-weight-input`}
-                label="Weight"
-                value={inputs[exercise].weight}
+                id={`${exercise}-percentage-input`}
+                label="Training Max %"
+                value={inputs[exercise].trainingMaxPercentage}
                 onChange={(e) =>
-                  handleInputChange(exercise, "weight", e.target.value)
+                  handleInputChange(exercise, "trainingMaxPercentage", e.target.value)
                 }
-                adornment="lb"
-              />
-              <ExerciseInput
-                id={`${exercise}-reps-input`}
-                label="Reps"
-                value={inputs[exercise].reps}
-                onChange={(e) =>
-                  handleInputChange(exercise, "reps", e.target.value)
-                }
-                adornment="Reps"
+                adornment="%"
               />
             </Box>
           </Grid>
@@ -112,12 +134,19 @@ const OneRepMaxCalculator = () => {
       {Object.keys(inputs).map(
         (exercise) =>
           inputs[exercise].oneRepMax !== null && (
-            <Typography key={exercise} variant="body1" sx={{ mt: 1 }}>
-              {exercise
-                .replace(/([A-Z])/g, " $1")
-                .replace(/^./, (str) => str.toUpperCase())}{" "}
-              1 Rep Max: {inputs[exercise].oneRepMax} lbs
-            </Typography>
+            <Box key={exercise} sx={{ mt: 2 }}>
+              <Typography variant="body1">
+                {exercise
+                  .replace(/([A-Z])/g, " $1")
+                  .replace(/^./, (str) => str.toUpperCase())}{" "}
+                1 Rep Max: {inputs[exercise].oneRepMax} lbs
+              </Typography>
+              {inputs[exercise].trainingMax !== null && (
+                <Typography variant="body1">
+                  Training Max ({inputs[exercise].trainingMaxPercentage}%): {inputs[exercise].trainingMax} lbs
+                </Typography>
+              )}
+            </Box>
           )
       )}
     </Box>
