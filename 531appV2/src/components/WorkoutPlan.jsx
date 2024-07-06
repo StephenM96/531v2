@@ -2,11 +2,12 @@ import React from 'react';
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import moment from 'moment';
 
+//Rounds to nearest 5 lb increment
 const calculateWeight = (trainingMax, percentage) => {
   return Math.floor((trainingMax * (percentage / 100)) / 5) * 5;
 };
 
-const generateWorkoutPlan = (trainingMaxes, startDate) => {
+const generateWorkoutPlan = (trainingMaxes, startDate, selectedDays) => {
   const plan = [];
   const percentages = [
     { week: 1, sets: [65, 75, 85] },
@@ -20,7 +21,7 @@ const generateWorkoutPlan = (trainingMaxes, startDate) => {
     percentages.forEach(({ week, sets }) => {
       const weekPlan = {
         week: (cycle - 1) * 3 + week,
-        date: currentDate.format('YYYY-MM-DD'), //Re-visit this formatting... Might want to make MM-DD-YYY
+        
         exercises: {}
       };
       
