@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import WorkoutPlan from './WorkoutPlan'; 
+import WorkoutPlan from './WorkoutPlan'; // Import the WorkoutPlan component
 
 const ExerciseInput = ({ id, label, value, onChange, adornment }) => {
   return (
@@ -38,6 +38,7 @@ const OneRepMaxCalculator = () => {
   const [startDate, setStartDate] = useState(null);
   const [showWorkoutPlan, setShowWorkoutPlan] = useState(false);
 
+  //Rounds to nearest 5 lbs
   const calculateOneRepMax = (weight, reps) => {
     const estimatedMax = weight * reps * (1 / 30) + weight;
     return Math.floor(estimatedMax / 5) * 5;

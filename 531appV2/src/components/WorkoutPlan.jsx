@@ -2,12 +2,11 @@ import React from 'react';
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import moment from 'moment';
 
-//Rounds to nearest 5 lb increment
 const calculateWeight = (trainingMax, percentage) => {
   return Math.floor((trainingMax * (percentage / 100)) / 5) * 5;
 };
 
-const generateWorkoutPlan = (trainingMaxes, startDate, selectedDays) => {
+const generateWorkoutPlan = (trainingMaxes, startDate) => {
   const plan = [];
   const percentages = [
     { week: 1, sets: [65, 75, 85] },
@@ -21,7 +20,7 @@ const generateWorkoutPlan = (trainingMaxes, startDate, selectedDays) => {
     percentages.forEach(({ week, sets }) => {
       const weekPlan = {
         week: (cycle - 1) * 3 + week,
-        
+        date: currentDate.format('YYYY-MM-DD'), //revisit this to maybe 'DD-MM-YYY' format??
         exercises: {}
       };
       
@@ -35,7 +34,7 @@ const generateWorkoutPlan = (trainingMaxes, startDate, selectedDays) => {
     });
 
     if (cycle === 1) {
-      //Increase training maxes for next cycle, bench and ohp by 5 lbs and squat and deadlift by 10 lbs
+      // Increase training maxes for the second cycle - 5 lbs BP and OHP and 10 lbs for sqaut and DL
       trainingMaxes.benchPress += 5;
       trainingMaxes.overheadPress += 5;
       trainingMaxes.backSquat += 10;
